@@ -1,2 +1,3 @@
-# litesubsys
-Lightweight emulation of lightning subsystem
+# LiteSubSys
+
+Lightweight Lightning Subsystem, POC
