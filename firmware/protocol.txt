@@ -1,0 +1,22 @@
+?
+about
+
+!
+reset
+
+;
+nop, use it for close last command
+
+*24;
+set dim to 24 of (0..255)
+
++9;
+set actual position to 9
+
+:f00;
+set actual led to red (r=255,g=0,b=0)
+
+:f00:f00;
+set next two leds to red
+
+:300-f00-14;
