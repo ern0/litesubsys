@@ -26,6 +26,13 @@ enum {
 	KEY_RELEASED
 };
 
+enum {
+	SHOW_UNDEF,
+	SHOW_OFF,
+	SHOW_ON,
+	SHOW_LIT
+};
+
 inline void clearEvents();
 inline void fire(char internalEvent,bool ext);
 inline void confirmExternalEvent();
@@ -37,5 +44,10 @@ inline void powerOn();
 inline void powerOff();
 inline void lightOn();
 inline void lightOff();
+
+inline void show();
+inline void showAdmin();
+inline void showOnboard();
+inline void showLight();
 
 # endif

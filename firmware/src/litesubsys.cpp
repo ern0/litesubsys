@@ -10,7 +10,12 @@ static char lightButtonState = KEY_RELEASED;
 
 static char internalEventBuffer;
 static char externalEventBuffer;
-bool externalEventTransmit;
+static bool externalEventTransmit;
+
+static char actualShow;
+static char lastShow;
+static int onboardCounter;
+static int lightCounter;
 
 
 void setup() {
@@ -28,6 +33,11 @@ void setup() {
 
 	powerOff();
 	lightOff();
+
+	actualShow = SHOW_UNDEF;
+	lastShow = SHOW_UNDEF;
+	onboardCounter = 0;
+	lightCounter = 0;
 
 } // setup()
 
@@ -58,7 +68,9 @@ void loop() {
 		Serial.write(externalEventBuffer);
 	}
 
-  delay(100);
+	show();
+
+  delay(20);
 
 } // loop()
 
@@ -161,8 +173,6 @@ inline void lightOn() {
 
 	if (powerState == OFF) return;
 
-	strip.setPixelColor(0, 255,40,0);
-	strip.show();
 	lightState = ON;
 	confirmExternalEvent();
 
@@ -177,3 +187,83 @@ inline void lightOff() {
 	confirmExternalEvent();
 
 } // lightOff()
+
+
+inline void show() {
+
+	showAdmin();
+	showOnboard();
+	showLight();
+
+} // show()
+
+
+inline void showAdmin() {
+
+	if (powerState == OFF) {
+		actualShow = SHOW_OFF;
+	} else if (lightState == OFF) {
+		actualShow = SHOW_ON;
+	} else {
+		actualShow = SHOW_LIT;
+	}
+
+	if (actualShow != lastShow) {
+
+		lastShow = actualShow;
+		onboardCounter = 0;
+		lightCounter = 0;
+
+	} // if show change
+
+} // showAdmin()
+
+
+inline void showOnboard() {
+
+	int v = LOW;
+
+	switch (actualShow) {
+	case SHOW_OFF:
+		if (onboardCounter > 30) v = HIGH;
+		break;
+	case SHOW_ON:
+		if (onboardCounter > 4) v = HIGH;
+		break;
+	case SHOW_LIT:
+		if (onboardCounter % 16 < 3) v = HIGH;
+		break;
+	}
+
+	digitalWrite(ONBOARD_PIN,v);
+
+	onboardCounter++;
+	if (onboardCounter > 32) onboardCounter = 0;
+
+} // showOnboard()
+
+
+inline void showLight() {
+
+	switch (actualShow) {
+	case SHOW_OFF:
+	case SHOW_ON:
+		strip.setPixelColor(0, 0,0,0);
+		strip.show();
+		break;
+	case SHOW_LIT:
+
+		int index = lightCounter / 64;
+		if (index == 0) strip.setPixelColor(0, 255,128,0);
+		if (index == 1) strip.setPixelColor(0, 32,32,255);
+		if (index == 2) strip.setPixelColor(0, 0,255,64);
+		if (index == 3) strip.setPixelColor(0, 64,255,0);
+		strip.show();
+
+		break;
+	}
+
+	lightCounter++;
+	if (lightCounter > 256) lightCounter = 0;
+
+} // showLight()
