@@ -2,9 +2,15 @@
 #include <Adafruit_NeoPixel.h>
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(1,LIGHT_PIN,NEO_GRB | NEO_KHZ800);
+
 static char powerState = OFF;
 static char lightState = OFF;
-static char singleElemEventBuffer;
+static char powerButtonState = KEY_RELEASED;
+static char lightButtonState = KEY_RELEASED;
+
+static char internalEventBuffer;
+static char externalEventBuffer;
+bool externalEventTransmit;
 
 
 void setup() {
@@ -12,6 +18,9 @@ void setup() {
   pinMode(ONBOARD_PIN,OUTPUT);
   pinMode(POWER_PIN,OUTPUT);
   pinMode(LIGHT_PIN,OUTPUT);
+
+	pinMode(POWER_BUTTON,INPUT_PULLUP);
+	pinMode(LIGHT_BUTTON,INPUT_PULLUP);
 
   Serial.begin(9600);
   strip.begin();
@@ -25,12 +34,12 @@ void setup() {
 
 void loop() {
 
-	clearEvent();
+	clearEvents();
 
 	pollSerial();
 	pollButtons();
 
-	switch (singleElemEventBuffer) {
+	switch (internalEventBuffer) {
 	case E_POWER_ON:
 		powerOn();
 		break;
@@ -45,45 +54,95 @@ void loop() {
 		break;
 	}
 
+	if (externalEventTransmit) {
+		Serial.write(externalEventBuffer);
+	}
+
   delay(100);
 
 } // loop()
 
 
-inline void clearEvent() {
-	singleElemEventBuffer = E_NONE;
-} // clearEvent()
+inline void clearEvents() {
+
+	internalEventBuffer = E_NONE;
+	externalEventBuffer = E_NONE;
+	externalEventTransmit = false;
+
+} // clearEvents()
 
 
-inline void fire(char event) {
-	singleElemEventBuffer = event;
+inline void fire(char event,bool ext) {
+
+	internalEventBuffer = event;
+	if (ext) externalEventBuffer = event;
+
 } // fire()
 
+
+inline void confirmExternalEvent() {
+
+	if (externalEventBuffer == E_NONE) return;
+	externalEventTransmit = true;
+
+} // confirmExternalEvent()
 
 
 inline void pollSerial() {
 
-  char c = Serial.read();
+  char event = Serial.read();
 
-  if (c == 'p') fire(E_POWER_OFF);
-  if (c == 'P') fire(E_POWER_ON);
-  if (c == 'l') fire(E_LIGHT_OFF);
-  if (c == 'L') fire(E_LIGHT_ON);
+	bool valid = false;
+  if (event == E_POWER_ON) valid = true;
+	if (event == E_POWER_OFF) valid = true;
+	if (event == E_LIGHT_OFF) valid = true;
+	if (event == E_LIGHT_ON) valid = true;
+
+	if (valid) fire(event,false);
 
 } // pollSerial()
 
 
 inline void pollButtons() {
 
-	/// TODO
+	pollButtonLogic(
+		POWER_BUTTON,
+		&powerButtonState,
+		powerState,
+		E_POWER_ON,
+		E_POWER_OFF
+	);
+
+	pollButtonLogic(
+		LIGHT_BUTTON,
+		&lightButtonState,
+		lightState,
+		E_LIGHT_ON,
+		E_LIGHT_OFF
+	);
 
 } // pollButtons()
+
+
+void pollButtonLogic(int pin,char* lastKeyState,char opState,int onEvent,int offEvent) {
+
+	int v = analogRead(pin);
+	char keyState = ( v == 0 ? KEY_PRESSED : KEY_RELEASED );
+	if (keyState == *lastKeyState) return;
+	*lastKeyState = keyState;
+
+	if (keyState == KEY_RELEASED) return;
+
+	fire(( opState == OFF ? onEvent : offEvent ),true);
+
+} // pollButtonLogic()
 
 
 inline void powerOn() {
 
 	digitalWrite(POWER_PIN,HIGH);
 	powerState = ON;
+	confirmExternalEvent();
 
 } // powerOn()
 
@@ -93,6 +152,7 @@ void powerOff() {
 	digitalWrite(POWER_PIN,LOW);
 	lightOff();
 	powerState = OFF;
+	confirmExternalEvent();
 
 } // powerOff()
 
@@ -104,6 +164,7 @@ inline void lightOn() {
 	strip.setPixelColor(0, 255,40,0);
 	strip.show();
 	lightState = ON;
+	confirmExternalEvent();
 
 } // lightOn()
 
@@ -113,5 +174,6 @@ inline void lightOff() {
 	strip.setPixelColor(0, 0,0,0);
 	strip.show();
 	lightState = OFF;
+	confirmExternalEvent();
 
 } // lightOff()
