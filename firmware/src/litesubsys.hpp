@@ -33,12 +33,13 @@ enum {
 	SHOW_LIT
 };
 
+inline void initVars();
 inline void clearEvents();
 inline void fire(char internalEvent,bool ext);
 inline void confirmExternalEvent();
 inline void pollSerial();
 inline void pollButtons();
-void pollButtonLogic(int pin,char* keyState,char opState,int onEvent,int offEvent);
+void pollButtonLogic(int pin,char* keyState,char opState,int onEvent,int offEvent,int* muteCounter);
 
 inline void powerOn();
 inline void powerOff();

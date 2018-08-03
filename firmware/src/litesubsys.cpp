@@ -7,15 +7,17 @@ static char powerState = OFF;
 static char lightState = OFF;
 static char powerButtonState = KEY_RELEASED;
 static char lightButtonState = KEY_RELEASED;
+static int powerButtonMute = 0;
+static int lightButtonMute = 0;
 
 static char internalEventBuffer;
 static char externalEventBuffer;
 static bool externalEventTransmit;
 
-static char actualShow;
-static char lastShow;
-static int onboardCounter;
-static int lightCounter;
+static char actualShow = SHOW_UNDEF;
+static char lastShow = SHOW_UNDEF;
+static int onboardCounter = 0;
+static int lightCounter = 0;
 
 
 void setup() {
@@ -34,12 +36,30 @@ void setup() {
 	powerOff();
 	lightOff();
 
+	initVars();
+
+} // setup()
+
+
+void initVars() {
+
+	powerState = OFF;
+	lightState = OFF;
+	powerButtonState = KEY_RELEASED;
+	lightButtonState = KEY_RELEASED;
+	powerButtonMute = 0;
+	lightButtonMute = 0;
+
+	internalEventBuffer = E_NONE;
+	externalEventBuffer = E_NONE;
+	externalEventTransmit = false;
+
 	actualShow = SHOW_UNDEF;
 	lastShow = SHOW_UNDEF;
 	onboardCounter = 0;
 	lightCounter = 0;
 
-} // setup()
+} // initVars()
 
 
 void loop() {
@@ -122,7 +142,8 @@ inline void pollButtons() {
 		&powerButtonState,
 		powerState,
 		E_POWER_ON,
-		E_POWER_OFF
+		E_POWER_OFF,
+		&powerButtonMute
 	);
 
 	pollButtonLogic(
@@ -130,13 +151,19 @@ inline void pollButtons() {
 		&lightButtonState,
 		lightState,
 		E_LIGHT_ON,
-		E_LIGHT_OFF
+		E_LIGHT_OFF,
+		&lightButtonMute
 	);
 
 } // pollButtons()
 
 
-void pollButtonLogic(int pin,char* lastKeyState,char opState,int onEvent,int offEvent) {
+void pollButtonLogic(int pin,char* lastKeyState,char opState,int onEvent,int offEvent,int* muteCounter) {
+
+	if (*muteCounter > 0) {
+		--(*muteCounter);
+		return;
+	}
 
 	int v = analogRead(pin);
 	char keyState = ( v == 0 ? KEY_PRESSED : KEY_RELEASED );
@@ -146,6 +173,7 @@ void pollButtonLogic(int pin,char* lastKeyState,char opState,int onEvent,int off
 	if (keyState == KEY_RELEASED) return;
 
 	fire(( opState == OFF ? onEvent : offEvent ),true);
+	*muteCounter = 5;
 
 } // pollButtonLogic()
 
