@@ -5,6 +5,9 @@
 
 std::mutex g_mutex;
 
+namespace com_c
+{
+
 class IEvent
 {
 public:
@@ -21,10 +24,18 @@ public:
     void process();
 
     bool isPorcessed() const;
+
+    template< typename T>
+    std::shared_ptr<T> interpretAs()
+    {
+        return std::dynamic_pointer_cast<std::shared_ptr<T> >(this);
+    }
 };
 
 class NullEvent : public IEvent
 {
     public:
     NullEvent( std::string iData) : IEvent(iData) {}
-}
+};
+
+} // com_c

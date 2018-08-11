@@ -2,6 +2,10 @@
 
 #include "event.h"
 
+namespace com_c
+{
+namespace power_m
+{   
 
 class MainPowerOnEvent : public IEvent
 {
@@ -16,3 +20,6 @@ public:
         // empty
     }
 };
+
+} // power_m
+} // com_c

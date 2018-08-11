@@ -6,16 +6,20 @@ namespace com_c
 {
 class IEvent;
 
-namespace power_m
+namespace lighting_m
 {   
 class Power;
 
-class EnginePowerOnHandler : IEventHandler
+class MainLightOffHandler : IEventHandler
 {
 public:
     
-    EnginePowerOnHandler();
+    MainLightOffHandler( std::shared_ptr<Power> );
     void handle(std::shared_ptr<IEvent>) override;
+
+private:
+    
+    std::shared_ptr<Power> mPower;
 };
 
 } // power_m

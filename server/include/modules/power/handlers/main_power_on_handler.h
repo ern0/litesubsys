@@ -2,17 +2,21 @@
 
 #include "event_handler.h"
 
+namespace com_c
+{
 class IEvent;
+
+namespace power_m
+{   
 class Power;
 
 class MainPowerOnHandler : IEventHandler
 {
 public:
     
-    MainPowerOnHandler( std::shared_ptr<Power> );
+    MainPowerOnHandler();
     void handle(std::shared_ptr<IEvent>) override;
-
-private:
-    
-    std::shared_ptr<Power> mPower;
 };
+
+} // power_m
+} // com_c

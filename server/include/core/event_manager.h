@@ -7,6 +7,9 @@
 std::mutex events_lock;
 std::mutex listeners_lock;
 
+namespace com_c
+{
+
 class IEvent;
 class IListener;
 
@@ -32,3 +35,5 @@ private:
     std::vector<IListener&> mListeners; /// Listeners.
 
 };
+
+} // com_c

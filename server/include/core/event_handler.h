@@ -1,6 +1,10 @@
 #pragma once
 
 #include <memory>  // smart pointres
+
+namespace com_c
+{
+
 class IEvent;
 
 class IEventHandler
@@ -23,3 +27,5 @@ class IEventHandler
     // }
     virtual void handle(std::shared_ptr<IEvent>) = 0;
 };
+
+} // com_c

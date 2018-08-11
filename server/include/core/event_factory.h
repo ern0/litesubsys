@@ -5,6 +5,9 @@
 #include <string>
 #include "event.h"
 
+namespace com_c
+{
+
 struct UDPData
 {
     short unsigned int module;
@@ -78,3 +81,5 @@ void EventFactory::fillCreatorTable()
 // {
 //     return std::make_shared<IEvent>( new NullEvent(payload));
 // }
+
+} // com_c

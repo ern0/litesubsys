@@ -3,6 +3,9 @@
 #include <memory> // smart pointres
 #include <vector>
 
+namespace com_c
+{
+
 class IEvent;
 class IEventHandler;
 
@@ -17,3 +20,5 @@ protected:
     /// Vector of registered handlers.
     std::vector<std::unique_ptr<IEventHandler> > mHandlers;
 };
+
+} // com_c

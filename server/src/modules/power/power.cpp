@@ -1,23 +1,26 @@
 #include "power.h"
 #include "event.h"
 #include "event_handler.h"
-#include "engine_power_on_handler.h"
+#include "main_power_on_handler.h"
+#include "main_power_off_handler.h"
+
+namespace com_c
+{
+namespace power_m
+{
+
 
 std::shared_ptr<Power> Power::getInstance()
 {
-    if(!mInstance)
-    {
-        mInstance =  std::shared_ptr<Power>(new Power());
-    }
-    return mInstance;
+    static std::shared_ptr<Power> wPower = std::shared_ptr<Power>(new Power());
+    return wPower;
 
 }
 
-Power::Power() : mInstance(nullptr)
+Power::Power()
 {
-    auto wThis = std::make_shared<Power>(this);
-    auto wEnginePowerOnHandler = std::make_unique<IEventHandler>(new EnginePowerOnHandler(wThis));
-    mHandlers.push_back(wEnginePowerOnHandler);
+    mHandlers.push_back( std::make_unique<IEventHandler>(new MainPowerOnHandler()));
+    mHandlers.push_back( std::make_unique<IEventHandler>(new MainPowerOffHandler()));
 }
 
 void Power::setPower(bool iPower)
@@ -29,3 +32,6 @@ bool Power::getPower() const
 {
     return mPowerOn;
 }
+
+} // power_m
+} // com_c

@@ -4,17 +4,17 @@
 
 namespace com_c
 {
-namespace power_m
+namespace lighting_m
 {   
 
-class MainPowerOffEvent : public IEvent
+class MainLightOffEvent : public IEvent
 {
 public:
-    MainPowerOffEvent()
+    MainLightOffEvent()
     {
         // empty
     }
 };
 
-} // power_m
+} // lighting_m
 } // com_c

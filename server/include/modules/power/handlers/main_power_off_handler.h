@@ -10,11 +10,11 @@ namespace power_m
 {   
 class Power;
 
-class EnginePowerOnHandler : IEventHandler
+class MainPowerOffHandler : IEventHandler
 {
 public:
     
-    EnginePowerOnHandler();
+    MainPowerOffHandler();
     void handle(std::shared_ptr<IEvent>) override;
 };
 
