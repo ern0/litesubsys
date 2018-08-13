@@ -2,7 +2,10 @@
 #include "power.h"
 #include "event.h"
 #include "event_handler.h"
-#include "engine_power_on_handler.h"
+
+//<handlers
+#include "main_light_off_handler.h"
+#include "main_light_on_handler.h"
 
 namespace com_c
 {
@@ -21,7 +24,8 @@ std::shared_ptr<Lighting> Lighting::getInstance()
 
 Lighting::Lighting() : mLightingOn(false)
 {
-    mPowerModule = Power::getInstance();
+    mHandlers.push_back( std::make_unique<IEventHandler>(new MainPowerOnHandler()));
+    mHandlers.push_back( std::make_unique<IEventHandler>(new MainPowerOffHandler()));
 }
 
 void Lighting::setLighting(bool iLighting)

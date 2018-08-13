@@ -8,18 +8,13 @@ class IEvent;
 
 namespace lighting_m
 {   
-class Power;
 
-class MainLightOffHandler : IEventHandler
+class MainLightOnHandler : IEventHandler
 {
 public:
     
-    MainLightOffHandler( std::shared_ptr<Power> );
+    MainLightOnHandler();
     void handle(std::shared_ptr<IEvent>) override;
-
-private:
-    
-    std::shared_ptr<Power> mPower;
 };
 
 } // power_m
