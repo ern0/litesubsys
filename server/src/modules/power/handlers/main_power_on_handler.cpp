@@ -19,6 +19,7 @@ void MainPowerOnHandler::handle(std::shared_ptr<IEvent> iEvent)
     if(NULL != wEvent)
     {
         Power::getInstance()->setPower(true);
+        // todo: Erno kapcsolja be az aramot!
         wEvent->process();
     }
     else

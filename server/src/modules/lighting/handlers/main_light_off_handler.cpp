@@ -16,9 +16,10 @@ void MainLightOffHandler::handle(std::shared_ptr<IEvent> iEvent)
 {
     auto wEvent = iEvent->interpretAs<MainLightOffEvent>();
 
-    if(NULL != wEvent)
+    if (NULL != wEvent)
     {
         Lighting::getInstance()->setLighting(false);
+        // todo: Erno kapcsolja le a lampat!
         wEvent->process();
     }
     else

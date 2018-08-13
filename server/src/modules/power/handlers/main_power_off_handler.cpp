@@ -19,6 +19,7 @@ void MainPowerOffHandler::handle(std::shared_ptr<IEvent> iEvent)
     if(NULL != wEvent)
     {
         Power::getInstance()->setPower(false);
+        // todo: Erno kapcsolja le az aramot!
         wEvent->process();
     }
     else

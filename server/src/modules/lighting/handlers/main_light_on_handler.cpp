@@ -19,6 +19,7 @@ void MainLightOnHandler::handle(std::shared_ptr<IEvent> iEvent)
     if(NULL != wEvent)
     {
         Lighting::getInstance()->setLighting(true);
+        // todo: Erno kapcsolja fel a lampat!
         wEvent->process();
     }
     else
