@@ -1,0 +1,19 @@
+The device works with single-byte messages.
+
+Request-reply command:
+
+ <bs> - echo signature: "lite"
+
+Input commands:
+
+ P - turn power on
+ p - turn power off
+ L - turn light on (works only if power is on)
+ l - turn light off
+
+Output events:
+
+ P - power turned on
+ p - power turned off
+ L - light turned on
+ l - light turned off
