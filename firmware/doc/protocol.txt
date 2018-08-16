@@ -2,7 +2,7 @@ The device works with single-byte messages.
 
 Request-reply command:
 
- <bs> - echo signature: "lite"
+ ^H - echo signature: "LiTe"
 
 Input commands:
 

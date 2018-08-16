@@ -41,6 +41,11 @@ void setup() {
 } // setup()
 
 
+void about() {
+	Serial.write(APP_SIGNATURE);
+} // about()
+
+
 void initVars() {
 
 	powerState = OFF;
@@ -81,6 +86,9 @@ void loop() {
 		break;
 	case E_LIGHT_OFF:
 		lightOff();
+		break;
+	case E_ABOUT:
+		about();
 		break;
 	}
 
@@ -129,6 +137,7 @@ inline void pollSerial() {
 	if (event == E_POWER_OFF) valid = true;
 	if (event == E_LIGHT_OFF) valid = true;
 	if (event == E_LIGHT_ON) valid = true;
+	if (event == E_ABOUT) valid = true;
 
 	if (valid) fire(event,false);
 

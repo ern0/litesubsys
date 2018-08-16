@@ -8,12 +8,15 @@
 # define POWER_BUTTON 1
 # define LIGHT_BUTTON 0
 
+# define APP_SIGNATURE "LiTe"
+
 enum {
 	E_NONE = '-',
 	E_POWER_OFF = 'p',
 	E_POWER_ON = 'P',
 	E_LIGHT_OFF = 'l',
-	E_LIGHT_ON = 'L'
+	E_LIGHT_ON = 'L',
+	E_ABOUT = '\b'
 };
 
 enum {
@@ -33,6 +36,7 @@ enum {
 	SHOW_LIT
 };
 
+inline void about();
 inline void initVars();
 inline void clearEvents();
 inline void fire(char internalEvent,bool ext);
