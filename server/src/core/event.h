@@ -2,6 +2,7 @@
 
 #include <mutex>
 #include <string>
+#include <memory>
 
 std::mutex g_mutex;
 
@@ -14,12 +15,12 @@ public:
     IEvent(std::string iData) : mData(iData) {}
     IEvent(){}
 protected:
-    
+
     bool mProcessed; ///< Flag to indicate if the event has been processed.
     std::string mData; ///< Pointer to the event data.
 
 public:
-    
+
     /// Thread-safe trigger of the mProcessed flag.
     void process();
 
