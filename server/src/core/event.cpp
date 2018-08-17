@@ -3,10 +3,10 @@
 
 namespace com_c
 {
-    
+
 void IEvent::process()
 {
-    std::lock_guard<std::mutex> guard(g_mutex);
+    //std::lock_guard<std::mutex> guard(g_mutex);
     mProcessed = true;
 }
 

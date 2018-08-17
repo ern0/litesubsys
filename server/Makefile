@@ -4,18 +4,15 @@ SRC=src
 BIN=bin
 OBJ=/tmp/obj
 
-CC=g++ -O3 -c
-CL=g++ -pthread
-
 INC= \
-	${SRC} \
-	${SRC}/core \
-	${SRC}/modules/power \
-	${SRC}/modules/power/events \
-	${SRC}/modules/power/handlers \
-	${SRC}/modules/lighting \
-	${SRC}/modules/lighting/events \
-	${SRC}/modules/lighting/handlers \
+	-I ${SRC} \
+	-I ${SRC}/core \
+	-I ${SRC}/modules/power \
+	-I ${SRC}/modules/power/events \
+	-I ${SRC}/modules/power/handlers \
+	-I ${SRC}/modules/lighting \
+	-I ${SRC}/modules/lighting/events \
+	-I ${SRC}/modules/lighting/handlers \
 
 OBJLIST= \
 	${OBJ}/event.o \
@@ -25,13 +22,17 @@ OBJLIST= \
 	${OBJ}/main_power_on_handler.o \
 	${OBJ}/main_power_off_handler.o \
 	${OBJ}/lighting.o \
-	${OBJ}/main_lighting_on_handler.o \
-	${OBJ}/main_lighting_off_handler.o \
+	${OBJ}/main_light_on_handler.o \
+	${OBJ}/main_light_off_handler.o \
+
+CC=g++ -std=c++17 -O3 ${INC} -c
+CL=g++
 
 
 ##### app #####
 
 ${BIN}/litesubsys: \
+			${BIN} \
 			${OBJLIST}
 	${CL} \
 		${OBJLIST} \
@@ -58,30 +59,34 @@ all: clean ${BIN}/litesubsys
 ##### core ####
 
 ${OBJ}/event.o: \
+			${OBJ} \
 			${SRC}/core/event.cpp \
 			${SRC}/core/event.h
 	${CC} \
 		${SRC}/core/event.cpp \
-		-o ${OBJ}/event.cpp
+		-o ${OBJ}/event.o
 
 ${OBJ}/event_manager.o: \
+			${OBJ} \
 			${SRC}/core/event_manager.cpp \
 			${SRC}/core/event_manager.h
 	${CC} \
 		${SRC}/core/event_manager.cpp \
-		-o ${OBJ}/event_manager.cpp
+		-o ${OBJ}/event_manager.o
 
 ${OBJ}/listener.o: \
+			${OBJ} \
 			${SRC}/core/listener.cpp \
 			${SRC}/core/listener.h
 	${CC} \
 		${SRC}/core/listener.cpp \
-		-o ${OBJ}/listener.cpp
+		-o ${OBJ}/listener.o
 
 
 ##### power module ####
 
 ${OBJ}/power.o: \
+			${OBJ} \
 			${SRC}/modules/power/power.cpp \
 			${SRC}/modules/power/power.h
 	${CC} \
@@ -89,6 +94,7 @@ ${OBJ}/power.o: \
 		-o ${OBJ}/power.o
 
 ${OBJ}/main_power_on_handler.o: \
+			${OBJ} \
 			${SRC}/modules/power/handlers/main_power_on_handler.cpp \
 			${SRC}/modules/power/handlers/main_power_on_handler.h
 	${CC} \
@@ -96,6 +102,7 @@ ${OBJ}/main_power_on_handler.o: \
 		-o ${OBJ}/main_power_on_handler.o
 
 ${OBJ}/main_power_off_handler.o: \
+			${OBJ} \
 			${SRC}/modules/power/handlers/main_power_off_handler.cpp \
 			${SRC}/modules/power/handlers/main_power_off_handler.h
 	${CC} \
@@ -106,20 +113,23 @@ ${OBJ}/main_power_off_handler.o: \
 ##### lighting module ####
 
 ${OBJ}/lighting.o: \
+			${OBJ} \
 			${SRC}/modules/lighting/lighting.cpp \
 			${SRC}/modules/lighting/lighting.h
 	${CC} \
 		${SRC}/modules/lighting/lighting.cpp \
 		-o ${OBJ}/lighting.o
 
-${OBJ}/main_lighting_on_handler.o: \
+${OBJ}/main_light_on_handler.o: \
+			${OBJ} \
 			${SRC}/modules/lighting/handlers/main_light_on_handler.cpp \
 			${SRC}/modules/lighting/handlers/main_light_on_handler.h
 	${CC} \
 		${SRC}/modules/lighting/handlers/main_light_on_handler.cpp \
-		-o ${OBJ}/main_lighting_on_handler.o
+		-o ${OBJ}/main_light_on_handler.o
 
-${OBJ}/main_lighting_off_handler.o: \
+${OBJ}/main_light_off_handler.o: \
+			${OBJ} \
 			${SRC}/modules/lighting/handlers/main_light_off_handler.cpp \
 			${SRC}/modules/lighting/handlers/main_light_off_handler.h
 	${CC} \

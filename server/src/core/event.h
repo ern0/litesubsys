@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-std::mutex g_mutex;
+//std::mutex g_mutex;
 
 namespace com_c
 {

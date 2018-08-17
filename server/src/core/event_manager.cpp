@@ -3,9 +3,15 @@
 #include "listener.h"
 #include "event_factory.h"
 
+int main(int argc, char* argv[])
+{
+	printf("made.\n");
+}
+
+
 namespace com_c
 {
-    
+
 void EventManager::notify()
 {
     std::lock_guard<std::mutex> guard(events_lock);
@@ -22,7 +28,7 @@ void EventManager::notify()
             registerEvent(wEvent);
         }
         mEventQueue.pop();
-        
+
     }
 }
 
@@ -38,7 +44,7 @@ void EventManager::registerEvent(std::shared_ptr<IEvent> iEvent)
     mEventQueue.push(iEvent);
 }
 
-void EventManager::registerListener(IListener& iListener)
+void EventManager::registerListener(std::shared_ptr<IListener> iListener)
 {
     std::lock_guard<std::mutex> guard(listeners_lock);
     mListeners.push_back(iListener);
@@ -46,7 +52,7 @@ void EventManager::registerListener(IListener& iListener)
 
 void EventManager::receiveUDPEvent(const UDPPackage& iPackage)
 {
-    registerEvent(EventFactory::getCreator(iPackage.identifier)(iPackage.payload));
+    //registerEvent(EventFactory::getCreator(iPackage.identifier)(iPackage.payload));
 }
 
 } // com_c
