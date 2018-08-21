@@ -19,8 +19,8 @@ std::shared_ptr<Power> Power::getInstance()
 
 Power::Power()
 {
-    //mHandlers.push_back( std::make_unique<IEventHandler>(new MainPowerOnHandler()));
-    //mHandlers.push_back( std::make_unique<IEventHandler>(new MainPowerOffHandler()));
+    mHandlers.push_back( std::unique_ptr<IEventHandler>(new MainPowerOnHandler()));
+    mHandlers.push_back( std::unique_ptr<IEventHandler>(new MainPowerOffHandler()));
 }
 
 void Power::setPower(bool iPower)

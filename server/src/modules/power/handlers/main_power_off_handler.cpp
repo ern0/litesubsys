@@ -14,8 +14,7 @@ MainPowerOffHandler::MainPowerOffHandler()
 
 void MainPowerOffHandler::handle(std::shared_ptr<IEvent> iEvent)
 {
-		/*
-    auto wEvent = iEvent->interpretAs<MainPowerOffEvent>();
+	auto wEvent = iEvent->interpretAs<MainPowerOffEvent>();
 
     if(NULL != wEvent)
     {
@@ -27,7 +26,6 @@ void MainPowerOffHandler::handle(std::shared_ptr<IEvent> iEvent)
     {
         // pass;
     }
-    */
 }
 
 } // power_m

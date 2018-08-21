@@ -37,10 +37,7 @@ class EventFactory
     public:
 
     /// Returns the creator functor based on the package indices.
-    static auto getCreator(const UDPData& iData)
-    {
-        return mCreators[iData.module][iData.category][iData.subCategory][iData.type][iData.specific];
-    }
+    static EventCreator getCreator(const UDPData& iData);
 
     private:
 
@@ -49,6 +46,8 @@ class EventFactory
 
     /// Creator table.
     static EventCreator mCreators[8][16][16][16][255];
+
+    static bool mCreated;
 
     /// Flat index of crator table.
     // At the moment there could be
@@ -60,21 +59,6 @@ class EventFactory
     // It adds up to 8.355.840 possible events.
     static const int c_flat_dim = 8*16*16*16*255;
 };
-
-void EventFactory::fillCreatorTable()
-{
-	/*
-    EventCreator* wSingleDimCreators = reinterpret_cast<EventCreator*>(mCreators);
-    for (int i = 0; i < c_flat_dim; ++i)
-    {
-        /// Fill the factory table with default creator using lambda function
-        wSingleDimCreators[i] = [] (std::string s) {
-					return new NullEvent(s);
-				};
-    }
-
-    */
-}
 
 ///
 // Example defeinition of an EventCreator function:

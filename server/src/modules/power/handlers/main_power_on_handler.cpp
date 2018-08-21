@@ -14,8 +14,7 @@ MainPowerOnHandler::MainPowerOnHandler( )
 
 void MainPowerOnHandler::handle(std::shared_ptr<IEvent> iEvent)
 {
-		/*
-    auto wEvent = iEvent->interpretAs<MainPowerOnEvent>();
+	auto wEvent = iEvent->interpretAs<MainPowerOnEvent>();
 
     if (NULL != wEvent)
     {
@@ -27,7 +26,6 @@ void MainPowerOnHandler::handle(std::shared_ptr<IEvent> iEvent)
     {
         // pass;
     }
-    */
 }
 
 } // power_m

@@ -10,7 +10,7 @@ namespace power_m
 {   
 class Power;
 
-class MainPowerOnHandler : IEventHandler
+class MainPowerOnHandler : public IEventHandler
 {
 public:
     

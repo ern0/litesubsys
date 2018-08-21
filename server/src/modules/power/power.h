@@ -10,7 +10,7 @@ namespace com_c
 namespace power_m
 {
 
-class Power //: public IListener
+class Power : public IListener
 {
 
 public:
