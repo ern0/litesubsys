@@ -17,6 +17,7 @@ INC= \
 OBJLIST= \
 	${OBJ}/event.o \
 	${OBJ}/event_manager.o \
+	${OBJ}/event_factory.o \
 	${OBJ}/listener.o \
 	${OBJ}/power.o \
 	${OBJ}/main_power_on_handler.o \
@@ -68,11 +69,21 @@ ${OBJ}/event.o: \
 
 ${OBJ}/event_manager.o: \
 			${OBJ} \
+			${OBJ}/event.o \
 			${SRC}/core/event_manager.cpp \
 			${SRC}/core/event_manager.h
 	${CC} \
 		${SRC}/core/event_manager.cpp \
 		-o ${OBJ}/event_manager.o
+
+${OBJ}/event_factory.o: \
+			${OBJ} \
+			${OBJ}/event.o \
+			${SRC}/core/event_factory.cpp \
+			${SRC}/core/event_factory.h
+	${CC} \
+		${SRC}/core/event_factory.cpp \
+		-o ${OBJ}/event_factory.o
 
 ${OBJ}/listener.o: \
 			${OBJ} \
