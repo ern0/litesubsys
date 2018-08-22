@@ -14,7 +14,7 @@ MainLightOnHandler::MainLightOnHandler()
 
 void MainLightOnHandler::handle(std::shared_ptr<IEvent> iEvent)
 {
-    auto wEvent = iEvent->interpretAs<MainLightOnEvent>();
+	auto wEvent = iEvent->interpretAs<MainLightOnEvent>();
 
     if(NULL != wEvent)
     {

@@ -1,5 +1,6 @@
 {
     "files.associations": {
+<<<<<<< HEAD
         "__config": "cpp",
         "__nullptr": "cpp",
         "cstddef": "cpp",
@@ -17,5 +18,8 @@
         "string": "cpp",
         "system_error": "cpp",
         "vector": "cpp"
+=======
+        "mutex": "cpp"
+>>>>>>> origin/reorg_makefile
     }
 }

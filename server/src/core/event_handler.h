@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>  // smart pointres
+#include <memory>
 
 namespace com_c
 {
@@ -14,9 +14,10 @@ class IEventHandler
     // only and leave other events unprocessed.
     // example:
     // event: ButtonPressed, handler: ButtonPressedHandler
-    //
-    // auto wEvent = std::dynamic_pointer_cast<ButtonPressed>(iEvent);
-    // if(NULL != wEvent)
+
+    // auto wEvent = iEvent->interpretAs<ButtonPressed>();
+
+    // if (NULL != wEvent)
     // {
     //     doSomethingImportant();
     //     wEvent->process();

@@ -1,4 +1,4 @@
-#include "power/handlers/main_power_on_handler.h"
+#include "main_power_on_handler.h"
 #include "main_power_on.h"
 #include "power.h"
 
@@ -14,9 +14,9 @@ MainPowerOnHandler::MainPowerOnHandler( )
 
 void MainPowerOnHandler::handle(std::shared_ptr<IEvent> iEvent)
 {
-    auto wEvent = iEvent->interpretAs<MainPowerOnEvent>();
+	auto wEvent = iEvent->interpretAs<MainPowerOnEvent>();
 
-    if(NULL != wEvent)
+    if (NULL != wEvent)
     {
         Power::getInstance()->setPower(true);
         // todo: Erno kapcsolja be az aramot!

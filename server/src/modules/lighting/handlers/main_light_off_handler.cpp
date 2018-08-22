@@ -14,7 +14,7 @@ MainLightOffHandler::MainLightOffHandler()
 
 void MainLightOffHandler::handle(std::shared_ptr<IEvent> iEvent)
 {
-    auto wEvent = iEvent->interpretAs<MainLightOffEvent>();
+	auto wEvent = iEvent->interpretAs<MainLightOffEvent>();
 
     if (NULL != wEvent)
     {
@@ -26,7 +26,9 @@ void MainLightOffHandler::handle(std::shared_ptr<IEvent> iEvent)
     {
         // pass;
     }
+    
 }
+
 
 } // power_m
 } // com_c

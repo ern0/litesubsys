@@ -1,4 +1,4 @@
-#include "power/handlers/main_power_off_handler.h"
+#include "main_power_off_handler.h"
 #include "main_power_off.h"
 #include "power.h"
 
@@ -14,7 +14,7 @@ MainPowerOffHandler::MainPowerOffHandler()
 
 void MainPowerOffHandler::handle(std::shared_ptr<IEvent> iEvent)
 {
-    auto wEvent = iEvent->interpretAs<MainPowerOffEvent>();
+	auto wEvent = iEvent->interpretAs<MainPowerOffEvent>();
 
     if(NULL != wEvent)
     {

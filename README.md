@@ -1,3 +1,3 @@
 # LiteSubSys
 
-Lightweight Lightning Subsystem, POC
+Lightweight Lighting Subsystem, POC

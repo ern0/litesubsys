@@ -29,18 +29,15 @@ class EventFactory
 {
 /**
  * EventFactory is a static class for creating specific events
- * based on the header inforamation from the UDP package. All events are 
+ * based on the header inforamation from the UDP package. All events are
  * categorized by their module/category/subCategory/type/specific indices.
- * 
- * EventFactory contains a factory table which stores the specific creator functors. 
+ *
+ * EventFactory contains a factory table which stores the specific creator functors.
  */
     public:
 
     /// Returns the creator functor based on the package indices.
-    static auto getCreator(const UDPData& iData)
-    {
-        return mCreators[iData.module][iData.category][iData.subCategory][iData.type][iData.specific];
-    }
+    static EventCreator getCreator(const UDPData& iData);
 
     private:
 
@@ -50,8 +47,10 @@ class EventFactory
     /// Creator table.
     static EventCreator mCreators[8][16][16][16][255];
 
+    static bool mCreated;
+
     /// Flat index of crator table.
-    // At the moment there could be 
+    // At the moment there could be
     // 8 modules
     // 16 categories
     // 16 subCategories
@@ -60,16 +59,6 @@ class EventFactory
     // It adds up to 8.355.840 possible events.
     static const int c_flat_dim = 8*16*16*16*255;
 };
-
-void EventFactory::fillCreatorTable()
-{
-    EventCreator* wSingleDimCreators = reinterpret_cast<EventCreator*>(mCreators);
-    for (int i = 0; i < c_flat_dim; ++i)
-    {    
-        /// Fill the factory table with default creator using lambda function     
-         wSingleDimCreators[i] = [] (std::string s){return std::make_shared<IEvent>( new NullEvent(s));};
-    }
-}
 
 ///
 // Example defeinition of an EventCreator function:

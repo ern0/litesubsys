@@ -9,7 +9,7 @@ class IEvent;
 namespace lighting_m
 {   
 
-class MainLightOffHandler : IEventHandler
+class MainLightOffHandler : public IEventHandler
 {
 public:
     

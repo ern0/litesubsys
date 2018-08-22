@@ -24,8 +24,8 @@ std::shared_ptr<Lighting> Lighting::getInstance()
 
 Lighting::Lighting() : mLightingOn(false)
 {
-    mHandlers.push_back( std::make_unique<IEventHandler>(new MainPowerOnHandler()));
-    mHandlers.push_back( std::make_unique<IEventHandler>(new MainPowerOffHandler()));
+    mHandlers.push_back( std::unique_ptr<IEventHandler>(new MainLightOffHandler()));
+    mHandlers.push_back( std::unique_ptr<IEventHandler>(new MainLightOffHandler()));
 }
 
 void Lighting::setLighting(bool iLighting)
