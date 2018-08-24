@@ -7,8 +7,6 @@
 int main(int argc, char* argv[])
 {
 	printf("made.\n");
-    com_c::netw::UDPSocket server(5001);
-    server.Listen();
 }
 
 
