@@ -2,10 +2,13 @@
 #include "event.h"
 #include "listener.h"
 #include "event_factory.h"
+#include "socket.h"
 
 int main(int argc, char* argv[])
 {
 	printf("made.\n");
+    com_c::netw::UDPSocket server(5001);
+    server.Listen();
 }
 
 

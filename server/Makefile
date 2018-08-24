@@ -15,6 +15,7 @@ INC= \
 	-I ${SRC}/modules/lighting/handlers \
 
 OBJLIST= \
+	${OBJ}/socket.o \
 	${OBJ}/event.o \
 	${OBJ}/event_factory.o \
 	${OBJ}/event_manager.o \
@@ -56,6 +57,15 @@ clean: ${OBJ}
 
 all: clean ${BIN}/litesubsys
 
+##### network ####
+
+${OBJ}/socket.o: \
+			${OBJ} \
+			${SRC}/core/socket.cpp \
+			${SRC}/core/socket.h
+	${CC} \
+		${SRC}/core/socket.cpp \
+		-o ${OBJ}/socket.o
 
 ##### core ####
 
