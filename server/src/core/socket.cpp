@@ -7,12 +7,10 @@
 #include <sys/ioctl.h>
 
 #include <unistd.h>
-#include <sstream>
 #include <stdexcept>
 #include <iostream>
-#include <cstring> 
-
-#include <stdexcept>
+#include <cstring>
+#include <sstream>
 
 static const int PACKAGE_SIZE = 80;
 
@@ -27,9 +25,12 @@ BaseSocket::BaseSocket(int socketId)
     DEBUGLOGGING << __INFO__;
     if(mSocketId == -1)
     {   
-        ERRORLOGGING << __INFO__;
-        ERRORLOGGING << std::string("BaseSocket socket = -1 ");
-        ERRORLOGGING << std::to_string(errno);
+        std::ostringstream wErrStream;
+        wErrStream 
+        << __INFO__ << std::endl
+        << "BaseSocket socket = -1 " << std::endl
+        << "Erno: " << errno << std::endl;
+        ERRORLOGGING << wErrStream.str();
         throw std::runtime_error("bad socket: " + std::to_string(errno));
     }
 }
@@ -79,7 +80,7 @@ void BaseSocket::close()
                 case EBADF:
                 {
                     ERRORLOGGING << __INFO__;
-                    ERRORLOGGING << "close: EBADF " + std::to_string(errno);
+                    ERRORLOGGING << "close: " + std::to_string(errno);
                 }
                 case EIO:
                 {
@@ -196,8 +197,6 @@ UDPSocket::UDPSocket(int port)
 
 }
 
-//template<typename F>
-//std::size_t DataSocket::getMessageData(char* buffer, std::size_t size, F scanForEnd)
 std::size_t UDPSocket::getMessageData(char* buffer, std::size_t size)
 {
     //DEBUGLOGGING << __INFO__;
@@ -297,14 +296,15 @@ void UDPSocket::Listen()
             INFOLOGGING << buffer;
 
             //Packet packet(buffer);
-            for(int i=0, j=0; i<got; ++i, ++j)
+            for(int i=0; i<got; ++i)
             {
-                if(j!=0 && j%8==0) printf("\n");
-                printf("%02x ",(unsigned char) buffer[i]);
+                if(i != 0 && i%8 == 0)
+                {
+                    std::cout << std::endl;
+                }
+                std::cout << "%02x " << static_cast<unsigned char>(buffer[i]);
             }
-            printf("\n");
-
-            
+            std::cout << std::endl;
         }
     }
 }
