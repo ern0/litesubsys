@@ -14,8 +14,7 @@
 
 #include <stdexcept>
 
-#define PACKAGE_SIZE 80
-
+static const int PACKAGE_SIZE = 80;
 
 namespace com_c
 {
@@ -29,8 +28,9 @@ BaseSocket::BaseSocket(int socketId)
     if(mSocketId == -1)
     {   
         ERRORLOGGING << __INFO__;
-        ERRORLOGGING << std::string("BaseSocket socket = -1" + errno);
-        throw std::runtime_error("bad socket: " + errno);
+        ERRORLOGGING << std::string("BaseSocket socket = -1 ");
+        ERRORLOGGING << std::to_string(errno);
+        throw std::runtime_error("bad socket: " + std::to_string(errno));
     }
 }
 
@@ -62,7 +62,7 @@ void BaseSocket::close()
     if(mSocketId == mInvalidSocketId)
     {
         ERRORLOGGING << __INFO__;
-        ERRORLOGGING << "socket id is invalid, already closed? " + errno;
+        ERRORLOGGING << "socket id is invalid, already closed? " + std::to_string(errno);
     }
 
     if(mSocketId >=0)
@@ -79,13 +79,13 @@ void BaseSocket::close()
                 case EBADF:
                 {
                     ERRORLOGGING << __INFO__;
-                    ERRORLOGGING << "close: EBADF " + errno;
+                    ERRORLOGGING << "close: EBADF " + std::to_string(errno);
                 }
                 case EIO:
                 {
                     ERRORLOGGING << __INFO__;
-                    ERRORLOGGING << "close: EIO " + errno;
-                    throw std::runtime_error("close: EIO:  " + errno);
+                    ERRORLOGGING << "close: EIO " + std::to_string(errno);
+                    throw std::runtime_error("close: EIO:  " + std::to_string(errno));
                 }
                 case EINTR:
                 {
@@ -98,7 +98,7 @@ void BaseSocket::close()
                 {
                     INFOLOGGING << __INFO__;
                     INFOLOGGING << errno;
-                    throw std::runtime_error("close: ???:  " + errno);
+                    throw std::runtime_error("close: ???:  " + std::to_string(errno));
                 }
             }
         }
@@ -188,8 +188,8 @@ UDPSocket::UDPSocket(int port)
     if (::bind(getSocketId(), (struct sockaddr *) &serverAddr, sizeof(serverAddr)) != 0)
     {
         ERRORLOGGING << __INFO__;
-        ERRORLOGGING << "Bind: " + errno;
-        throw std::runtime_error("Bind: " + errno);
+        ERRORLOGGING << "Bind: " + std::to_string(errno);
+        throw std::runtime_error("Bind: " + std::to_string(errno));
         close();
         exit(-1);
     }
@@ -226,8 +226,8 @@ std::size_t UDPSocket::getMessageData(char* buffer, std::size_t size)
             {
                 // Fatal error. Programming bug
                 ERRORLOGGING << __INFO__;
-                ERRORLOGGING << "read: critical error: " + errno;
-                throw std::runtime_error("read: critical error: " + errno);
+                ERRORLOGGING << "read: critical error: " + std::to_string(errno);
+                throw std::runtime_error("read: critical error: " + std::to_string(errno));
                 return 0; //break;
             }
             case EIO:
@@ -236,8 +236,8 @@ std::size_t UDPSocket::getMessageData(char* buffer, std::size_t size)
             {
                 // Resource acquisition failure or device error
                 ERRORLOGGING << __INFO__;
-                ERRORLOGGING << "read: resource failure: " + errno;
-                throw std::runtime_error("read: resource failure: " + errno);                    
+                ERRORLOGGING << "read: resource failure: " + std::to_string(errno);
+                throw std::runtime_error("read: resource failure: " + std::to_string(errno));                    
                 return 0; //break;
             }
             case EINTR:
@@ -250,7 +250,7 @@ std::size_t UDPSocket::getMessageData(char* buffer, std::size_t size)
                 // Temporary error.
                 // Simply retry the read.
                 ERRORLOGGING << __INFO__;
-                ERRORLOGGING << "EINTR, ETIMEDOUT, EAGAIN: " + errno;
+                ERRORLOGGING << "EINTR, ETIMEDOUT, EAGAIN: " + std::to_string(errno);
                 return 0; //continue;
             }
             case ECONNRESET:
@@ -260,14 +260,14 @@ std::size_t UDPSocket::getMessageData(char* buffer, std::size_t size)
                 // Return the data we have available and exit
                 // as if the connection was closed correctly.
                 ERRORLOGGING << __INFO__;
-                DEBUGLOGGING << "Connection broken" + errno;
+                DEBUGLOGGING << "Connection broken" + std::to_string(errno);
                 get = 0;
                 return 0; //break;
             }
             default:
             {
                 ERRORLOGGING << __INFO__;
-                ERRORLOGGING << "read: returned -1"  + errno;
+                ERRORLOGGING << "read: returned -1"  + std::to_string(errno);
                 get = 0;
             }
         }
