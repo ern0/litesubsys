@@ -4,9 +4,14 @@
 #include "event_factory.h"
 #include "socket.h"
 
+#include <memory>
+
+using namespace com_c;
 int main(int argc, char* argv[])
 {
 	printf("made.\n");
+
+    auto wEventManager = std::make_unique<EventManager>();
 }
 
 
@@ -53,6 +58,25 @@ void EventManager::registerListener(std::shared_ptr<IListener> iListener)
 void EventManager::receiveUDPEvent(const UDPPackage& iPackage)
 {
     registerEvent(EventFactory::getCreator(iPackage.identifier)(iPackage.payload));
+}
+
+void EventManager::listen()
+{
+    while(true)
+    {
+        listenUDPEvent();
+        listenInternalEvent();
+    }
+}
+
+void EventManager::listenUDPEvent()
+{
+
+}
+
+void EventManager::listenInternalEvent()
+{
+
 }
 
 } // com_c
