@@ -9,17 +9,17 @@ EventCreator EventFactory::mCreators[8][16][16][16][255];
 EventCreator EventFactory::getCreator(const UDPData& iData)
 {
    return nullptr;
-    // if(!mCreated)
-    // {
-    //     fillCreatorTable();
-    // }
-    // return mCreators[iData.module][iData.category][iData.subCategory][iData.type][iData.specific];
+    if(!mCreated)
+    {
+        fillCreatorTable();
+    }
+    return mCreators[iData.module][iData.category][iData.subCategory][iData.type][iData.specific];
 }
 
 void EventFactory::fillCreatorTable()
 {
     EventCreator* wSingleDimCreators = reinterpret_cast<EventCreator*>(mCreators);
-    EventCreator wTmp = [] (std::string s) 
+    auto wTmp = [] (std::string s) 
     { 
         return std::shared_ptr<IEvent>( new NullEvent(s) );
     };
