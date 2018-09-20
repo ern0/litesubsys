@@ -52,7 +52,7 @@ void EventManager::registerListener(std::shared_ptr<IListener> iListener)
 
 void EventManager::receiveUDPEvent(const UDPPackage& iPackage)
 {
-    //registerEvent(EventFactory::getCreator(iPackage.identifier)(iPackage.payload));
+    registerEvent(EventFactory::getCreator(iPackage.identifier)(iPackage.payload));
 }
 
 } // com_c
