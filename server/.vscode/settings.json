@@ -1,6 +1,5 @@
 {
     "files.associations": {
-<<<<<<< HEAD
         "__config": "cpp",
         "__nullptr": "cpp",
         "cstddef": "cpp",
@@ -17,9 +16,10 @@
         "functional": "cpp",
         "string": "cpp",
         "system_error": "cpp",
-        "vector": "cpp"
-=======
+        "vector": "cpp",
         "mutex": "cpp"
->>>>>>> origin/reorg_makefile
+    },
+    "files.exclude": {
+        "**/bin": true
     }
 }
