@@ -12,6 +12,7 @@ int main(int argc, char* argv[])
 	printf("made.\n");
 
     auto wEventManager = std::make_unique<EventManager>();
+    wEventManager->listen();
 }
 
 

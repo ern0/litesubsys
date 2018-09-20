@@ -8,7 +8,7 @@
 std::mutex events_lock;
 std::mutex listeners_lock;
 
-int main(int argc, char* argv[]);
+// int main(int argc, char* argv[]);
 
 namespace com_c
 {
@@ -25,8 +25,6 @@ private:
     void notify();
     /// @breif Remove old, unprocessed events.
     void cleanQueue();
-    /// @breif Listen for events
-    void listen();
     /// @breif Listen UDP
     void listenUDPEvent();
     /// @breif Listen internal event
@@ -38,6 +36,8 @@ public:
     void registerListener(std::shared_ptr<IListener> iListener);
     /// @breif Receive event as UDP package;
     void receiveUDPEvent(const UDPPackage& iPackage);
+    /// @breif Listen for events
+    void listen();
 
 private:
     std::queue< std::shared_ptr<IEvent> > mEventQueue; /// Event queue.
