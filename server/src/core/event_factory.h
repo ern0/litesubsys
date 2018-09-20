@@ -23,20 +23,22 @@ struct UDPPackage
     std::string payload;
 };
 
-typedef std::shared_ptr<IEvent> (*EventCreator)(std::string);
+using EventCreator = std::shared_ptr<IEvent> (*)(std::string);
 
+///
+/// EventFactory is a static class for creating specific events
+/// based on the header inforamation from the UDP package. All events are
+/// categorized by their module/category/subCategory/type/specific indices.
+/// EventFactory contains a factory table which stores the specific creator functors.
+///
 class EventFactory
 {
-/**
- * EventFactory is a static class for creating specific events
- * based on the header inforamation from the UDP package. All events are
- * categorized by their module/category/subCategory/type/specific indices.
- *
- * EventFactory contains a factory table which stores the specific creator functors.
- */
+
     public:
 
-    /// Returns the creator functor based on the package indices.
+    /// @brief Returns the creator functor based on the package indices.
+    /// @param iData Input data
+    /// @return Event creator for specific event
     static EventCreator getCreator(const UDPData& iData);
 
     private:
